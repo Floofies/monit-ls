@@ -1,0 +1,31 @@
+{
+  "name": "monit-ls",
+  "version": "1.0.0",
+  "description": "Tiny CLI script for NodeJS which lists data from Monit hosts. Outputs in human-readable or JSON formats.",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "monit-ls": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Floofies/monit-ls.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Floofies/monit-ls/issues"
+  },
+  "homepage": "https://github.com/Floofies/monit-ls#readme",
+  "dependencies": {
+    "axios": "^1.13.6",
+    "cli-table3": "^0.6.5",
+    "commander": "^14.0.3",
+    "ejs": "^5.0.1",
+    "xml2js": "^0.6.2"
+  }
+}
