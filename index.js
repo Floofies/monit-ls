@@ -74,7 +74,7 @@ function renderCLI(results) {
     style: { head: ['cyan'] }
   });
 
-  results.forEach(res => {
+  for(const res of results) {
     const hostName = res.success ? (res.data.server.localhostname || res.url) : res.url;
     if (!res.success) {
       table.push([hostName, 'N/A', 'N/A', `Offline: ${res.error}`, 'N/A']);
@@ -82,20 +82,20 @@ function renderCLI(results) {
     }
 
     const services = Array.isArray(res.data.service) ? res.data.service : [res.data.service];
-    services.forEach((s, index) => {
+    services.forEach((service, index) => {
       let extra = 'N/A';
-      if (s.uptime) extra = `Up: ${s.uptime}s`;
-      else if (s.block) extra = `Disk: ${s.block.percent}%`;
+      if (service.uptime) extra = `Up: ${service.uptime}s`;
+      else if (service.block) extra = `Disk: ${service.block.percent}%`;
       
       table.push([
         index === 0 ? hostName : '',
-        s.name,
-        s.$.type,
-        formatStatus(s.status),
+        service.name,
+        service.$.type,
+        formatStatus(service.status),
         extra
       ]);
     });
-  });
+  }
 
   return table.toString();
 }
