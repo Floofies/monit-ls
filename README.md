@@ -2,38 +2,23 @@
 
 `monit-ls` is a Node.js CLI script designed to fetch status information from Monit hosts and present it in various formats, including human-readable command-line output, JSON, and HTML.
 
-## Features
+The script uses `ejs` for HTML templating. A basic HTML template is embedded within the script. For more complex HTML reports, you can create a `template.ejs` file in the same directory as `index.js`, and the script will use that instead.
 
-*   **Multiple Host Support**: Query status from one or more Monit instances.
-*   **Flexible Host Configuration**: Specify Monit host URLs directly via command-line arguments or through a JSON configuration file.
-*   **Output Formats**: Display results in:
-    *   **CLI**: A formatted table for easy readability in the terminal.
-    *   **JSON**: A structured JSON object suitable for programmatic consumption.
-    *   **HTML**: A basic HTML report for web-based viewing.
-*   **Error Handling**: Gracefully handles unreachable Monit hosts or API errors.
+**Features**:
+- **Multiple Monit Hosts**: Query status from one or more Monit instances.
+- **Flexible Configuration**: Specify Monit host URLs directly via command-line arguments or through a JSON configuration file.
+- **Error Handling**: Gracefully handles unreachable Monit hosts or API errors.
 
-## Installation
-
-1.  **Clone the repository:**
-
-    ```bash
-    git clone https://github.com/Floofies/monit-ls.git
-    cd monit-ls
-    ```
-
-2.  **Install dependencies:**
-
-    ```bash
-    npm install
-    ```
+**Output Formats**:
+- **CLI**: A formatted table for easy readability in the terminal.
+- **JSON**: A structured JSON object suitable for programmatic consumption.
+- **HTML**: A basic HTML report for web-based viewing.
 
 ## Usage
 
-The `monit-ls` script can be executed directly from the project directory. Ensure you have Node.js installed.
+The `monit-ls` script can be executed directly from the project directory.
 
-### Specifying Monit Hosts
-
-YouYou can specify Monit hosts in two ways:
+You can specify Monit hosts in two ways:
 
 1.  **Using the `--hosts` option:** Provide a comma-separated list of Monit URLs. Include authentication credentials (username:password) directly in the URL if required.
 
@@ -116,11 +101,6 @@ Use the `--output <path>` option to save the generated output to a specified fil
 ```bash
 ./index.js --hosts http://user:pass@monit-host:2812 --format html --output monit_report.html
 ```
-
-## Development Notes
-
-*   The script uses `axios` for HTTP requests, `xml2js` for parsing Monit\'s XML status output, `commander` for CLI argument parsing, `cli-table3` for formatted CLI output, and `ejs` for HTML templating.
-*   A basic HTML template is embedded within the script. For more complex HTML reports, you can create a `template.ejs` file in the same directory as `index.js`, and the script will use that instead.
 
 ## License
 
