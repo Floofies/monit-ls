@@ -16,14 +16,14 @@ The script uses `ejs` for HTML templating. A basic HTML template is embedded wit
 
 ## Usage
 
-The `monit-ls` script can be executed directly from the project directory.
+The `monit-ls` script can be executed directly from the project directory, or via the `monit-ls` command.
 
 You can specify Monit hosts in two ways:
 
 1.  **Using the `--hosts` option:** Provide a comma-separated list of Monit URLs. Include authentication credentials (username:password) directly in the URL if required.
 
     ```bash
-    ./index.js --hosts http://user:pass@monit-host1:2812,http://monit-host2:2812
+    monit-ls --hosts http://user:pass@monit-host1:2812,http://monit-host2:2812
     ```
 
 2.  **Using a configuration file with the `--config` option:** Create a JSON file (e.g., `config.json`) with a `hosts` array.
@@ -40,7 +40,7 @@ You can specify Monit hosts in two ways:
 
     Then run the script:
     ```bash
-    ./index.js --config config.json
+    monit-ls --config config.json
     ```
 
 ### Output Formats
@@ -50,7 +50,7 @@ Use the `--format` option to choose the output format. The default is `cli`.
 *   **CLI (default):**
 
     ```bash
-    ./index.js --hosts http://user:pass@monit-host:2812 --format cli
+    monit-ls --hosts http://user:pass@monit-host:2812 --format cli
     ```
 
     Example output:
@@ -67,7 +67,7 @@ Use the `--format` option to choose the output format. The default is `cli`.
 *   **JSON:**
 
     ```bash
-    ./index.js --hosts http://user:pass@monit-host:2812 --format json
+    monit-ls --hosts http://user:pass@monit-host:2812 --format json
     ```
 
     Example output (truncated):
@@ -89,7 +89,7 @@ Use the `--format` option to choose the output format. The default is `cli`.
 *   **HTML:**
 
     ```bash
-    ./index.js --hosts http://user:pass@monit-host:2812 --format html
+    monit-ls --hosts http://user:pass@monit-host:2812 --format html
     ```
 
     This will output HTML content to the console. To save it to a file, use the `--output` option.
@@ -99,7 +99,7 @@ Use the `--format` option to choose the output format. The default is `cli`.
 Use the `--output <path>` option to save the generated output to a specified file.
 
 ```bash
-./index.js --hosts http://user:pass@monit-host:2812 --format html --output monit_report.html
+monit-ls --hosts http://user:pass@monit-host:2812 --format html --output monit_report.html
 ```
 
 ## License
