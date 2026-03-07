@@ -101,7 +101,3 @@ Use the `--output <path>` option to save the generated output to a specified fil
 ```bash
 monit-ls --hosts http://user:pass@monit-host:2812 --format html --output monit_report.html
 ```
-
-## License
-
-This project is licensed under the ISC License. See the `LICENSE` file for details.
