@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import axios from 'axios';
 import { parseStringPromise } from 'xml2js';
 import Table from 'cli-table3';
