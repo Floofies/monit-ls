@@ -83,35 +83,34 @@
 			</tr>
 		</thead>
 		<tbody>
-			<% results.forEach(result=> { -%>
-				<tr class="host-row">
-					<td colspan="5" class="<%= result.success ? 'status-ok' : 'status-error' %>">
-						<%= result.displayName -%>
-					</td>
-				</tr>
-				<% if (result.success) { -%>
-					<% result.data.service.forEach(service=> { -%>
-						<tr>
-							<td></td>
-							<td>
-								<%= service.name -%>
-							</td>
-							<td>
-								<%= service.$.type -%>
-							</td>
-							<td class="<%= service.status == '0' ? 'status-ok' : 'status-error' %>">
-								<%= service.status=='0' ? 'OK' : 'Error (' + service.status + ')' -%>
-							</td>
-							<td>
-								<% if (service.uptime) { %> Uptime: <%= service.uptime %>s <% } -%>
-								<% if (service.block) { %> Disk: <%= service.block.percent %>% <% } -%>
-								<% if (service.cpu) { %> CPU: <%= service.cpu.percent %>% <% } -%>
-								<% if (service.memory) { %> Mem: <%= service.memory.percent %>% <% } -%>
-							</td>
-						</tr>
-					<% }); -%>
-				<% } -%>
-			<% }); -%>
+<% results.forEach(result=> { -%>
+			<tr class="host-row">
+				<td colspan="5" class="<%= result.success ? 'status-ok' : 'status-error' %>">
+					<%= result.displayName %>
+				</td>
+			</tr>
+<% if (result.success) { -%>
+<% result.data.service.forEach(service=> { -%>
+			<tr>
+				<td>
+					<%= service.name %>
+				</td>
+				<td>
+					<%= service.$.type %>
+				</td>
+				<td class="<%= service.status == '0' ? 'status-ok' : 'status-error' %>">
+					<%= service.status=='0' ? 'OK' : 'Error (' + service.status + ')' %>
+				</td>
+				<td>
+					<% if (service.uptime) { %> Uptime: <%= service.uptime %>s <% } %>
+					<% if (service.block) { %> Disk: <%= service.block.percent %>% <% } %>
+					<% if (service.cpu) { %> CPU: <%= service.cpu.percent %>% <% } %>
+					<% if (service.memory) { %> Mem: <%= service.memory.percent %>% <% } %>
+				</td>
+			</tr>
+<% }); -%>
+<% } -%>
+<% }); -%>
 		</tbody>
 	</table>
 </body>
