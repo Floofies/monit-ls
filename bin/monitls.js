@@ -8,7 +8,7 @@ const program = new Command();
 
 program.name("monitls")
 	.description("List data from Monit hosts")
-	.version("1.0.0")
+	.version("1.0.0-gm")
 	.argument("[hosts]", "Comma-separated list of Monit URLs (e.g., http://user:pass@host:2812)")
 	.option("-h, --hosts <hosts>", "Comma-separated list of Monit URLs (e.g., http://user:pass@host:2812)")
 	.option("-c, --config <path>", "Path to a JSON config file containing the list of hosts")
@@ -19,8 +19,6 @@ program.name("monitls")
 
 const args = program.args;
 const options = program.opts();
-
-// Toggle between human-friendly input via TTY and JSON data input via stdin (API).
 try {
 	let hostnames;
 	let template;
@@ -51,6 +49,7 @@ try {
 	if (options.output) {
 		await fs.writeFile(options.output, output);
 	}
+	// Toggle between human-friendly output via TTY and pipe-able data output via stdout (API).
 	if (process.stdout.isTTY) {
 		if (options.output) {
 			console.log(`Output saved to ${options.output}`);
