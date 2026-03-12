@@ -10,7 +10,7 @@ The script uses `ejs` for HTML templating. A basic HTML template is embedded wit
 - **Error Handling**: Gracefully handles unreachable Monit hosts or API errors.
 
 **Output Formats**:
-- **Table**: A formatted spreadsheet table for easy readability in the terminal.
+- **Table**: A formatted ASCII spreadsheet for easy readability in the terminal.
 - **JSON**: A structured JSON object suitable for programmatic consumption.
 - **HTML**: A basic HTML report for web-based viewing.
 
@@ -18,15 +18,27 @@ The script uses `ejs` for HTML templating. A basic HTML template is embedded wit
 
 The `monit-ls` script can be executed directly from the project directory, or via the `monitls` command.
 
-You can specify Monit hosts in two ways:
+You can specify Monit hosts in 3 ways. Provide a comma-separated list of Monit URLs. Include authentication credentials (username:password) directly in the URL if required.
 
-1.  **Using the `--hosts` option:** Provide a comma-separated list of Monit URLs. Include authentication credentials (username:password) directly in the URL if required.
+1.  **Via the first argument:**
+
+```bash
+monitls http://user:pass@monit-host1:2812,http://monit-host2:2812
+```
+
+2.  **Via the `--hosts` option:** 
 
 ```bash
 monitls --hosts http://user:pass@monit-host1:2812,http://monit-host2:2812
 ```
 
-2.  **Using a configuration file with the `--config` option:** Create a JSON file (e.g., `config.json`) with a `hosts` array. A path to a custom EJS template may be optionally supplied via a `template` string.
+3.  **Using a configuration file with the `--config` option:**
+- Create a JSON file (e.g., `config.json`) with a `hosts` array.
+- A custom EJS template path may also be supplied via a `template` string.
+
+```bash
+monitls --config ~/path/to/config.json
+```
 
 `config.json` example:
 ```json
@@ -37,11 +49,6 @@ monitls --hosts http://user:pass@monit-host1:2812,http://monit-host2:2812
 	],
 	"template": "~/path/to/custom_template.ejs"
 }
-```
-
-Then run the script:
-```bash
-monitls --config config.json
 ```
 
 ### Output Formats
