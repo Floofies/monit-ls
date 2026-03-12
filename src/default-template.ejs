@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Monit-ls Status</title>
+	<style>
+		body {
+			font-family: sans-serif;
+			margin: 0;
+			height:100%;
+		}
+		h1 {
+			color:#222222;
+			outline: rgba(0, 1, 255, 0) solid 1px;
+			font-family: 'HelveticaNeue', Helvetica, Arial, sans-serif;
+			font-size: 1.8em;
+			line-height: 1.9em;
+		}
+		table {
+			border-collapse: collapse;
+			width:95%;
+			margin-bottom:30px;
+		}
+		th,
+		td {
+			border: 1px solid #ddd;
+			padding: 8px;
+			text-align: left;
+		}
+		th {
+			background-color: #f2f2f2;
+		}
+		tr:nth-child(even) {
+			background-color: #EDF5FF;
+		}
+		.header {
+			background-color: #EDF5FF;
+			width:100%;
+			border-bottom: 1px solid #ccc;
+		}
+		.center {
+			text-align: center;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		.headerBox {
+			outline: rgba(0, 1, 255, 0) solid 1px;
+			width:100%;
+			vertical-align:middle;
+		}
+		.status-ok {
+			color: green;
+			font-weight: bold;
+		}
+		.status-error {
+			color: red;
+			font-weight: bold;
+		}
+		.host-row {
+			background-color: #f9f9f9;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+	<table class="header" id="header" width="100%">
+		<tbody>
+			<tr>
+				<td colspan="2" class="headerBox">
+					<h1 class="center">Monit-ls Status Report</h1>
+					<p class="center">Generated at: <%= new Date().toLocaleString() %></p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<table class="center">
+		<thead>
+			<tr>
+				<th>Host</th>
+				<th>Service</th>
+				<th>Type</th>
+				<th>Status</th>
+				<th>Details</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% results.forEach(result=> { -%>
+				<tr class="host-row">
+					<td colspan="5" class="<%= result.success ? 'status-ok' : 'status-error' %>">
+						<%= result.displayName -%>
+					</td>
+				</tr>
+				<% if (result.success) { -%>
+					<% result.data.service.forEach(service=> { -%>
+						<tr>
+							<td></td>
+							<td>
+								<%= service.name -%>
+							</td>
+							<td>
+								<%= service.$.type -%>
+							</td>
+							<td class="<%= service.status == '0' ? 'status-ok' : 'status-error' %>">
+								<%= service.status=='0' ? 'OK' : 'Error (' + service.status + ')' -%>
+							</td>
+							<td>
+								<% if (service.uptime) { %> Uptime: <%= service.uptime %>s <% } -%>
+								<% if (service.block) { %> Disk: <%= service.block.percent %>% <% } -%>
+								<% if (service.cpu) { %> CPU: <%= service.cpu.percent %>% <% } -%>
+								<% if (service.memory) { %> Mem: <%= service.memory.percent %>% <% } -%>
+							</td>
+						</tr>
+					<% }); -%>
+				<% } -%>
+			<% }); -%>
+		</tbody>
+	</table>
+</body>
+</html>

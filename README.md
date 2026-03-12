@@ -10,94 +10,95 @@ The script uses `ejs` for HTML templating. A basic HTML template is embedded wit
 - **Error Handling**: Gracefully handles unreachable Monit hosts or API errors.
 
 **Output Formats**:
-- **CLI**: A formatted table for easy readability in the terminal.
+- **Table**: A formatted spreadsheet table for easy readability in the terminal.
 - **JSON**: A structured JSON object suitable for programmatic consumption.
 - **HTML**: A basic HTML report for web-based viewing.
 
 ## Usage
 
-The `monit-ls` script can be executed directly from the project directory, or via the `monit-ls` command.
+The `monit-ls` script can be executed directly from the project directory, or via the `monitls` command.
 
 You can specify Monit hosts in two ways:
 
 1.  **Using the `--hosts` option:** Provide a comma-separated list of Monit URLs. Include authentication credentials (username:password) directly in the URL if required.
 
-    ```bash
-    monit-ls --hosts http://user:pass@monit-host1:2812,http://monit-host2:2812
-    ```
+```bash
+monitls --hosts http://user:pass@monit-host1:2812,http://monit-host2:2812
+```
 
-2.  **Using a configuration file with the `--config` option:** Create a JSON file (e.g., `config.json`) with a `hosts` array.
+2.  **Using a configuration file with the `--config` option:** Create a JSON file (e.g., `config.json`) with a `hosts` array. A path to a custom EJS template may be optionally supplied via a `template` string.
 
-    `config.json` example:
-    ```json
-    {
-      "hosts": [
-        "http://user:pass@monit-host1:2812",
-        "http://monit-host2:2812"
-      ]
-    }
-    ```
+`config.json` example:
+```json
+{
+	"hosts": [
+		"http://user:pass@monit-host1:2812",
+		"http://monit-host2:2812"
+	],
+	"template": "~/path/to/custom_template.ejs"
+}
+```
 
-    Then run the script:
-    ```bash
-    monit-ls --config config.json
-    ```
+Then run the script:
+```bash
+monitls --config config.json
+```
 
 ### Output Formats
 
-Use the `--format` option to choose the output format. The default is `cli`.
+Use the `--format` option to choose the output format. The default is `table`.
 
-*   **CLI (default):**
+#### Table (default):
 
-    ```bash
-    monit-ls --hosts http://user:pass@monit-host:2812 --format cli
-    ```
+```bash
+monitls --hosts http://user:pass@monit-host:2812 --format table
+```
 
-    Example output:
-    ```
-    ┌───────────┬─────────┬──────┬────────┬──────────────┐
-    │ Host      │ Service │ Type │ Status │ Uptime/Usage │
-    ├───────────┼─────────┼──────┼────────┼──────────────┤
-    │ test-host │ apache2 │ 3    │ OK     │ Up: 500s     │
-    ├───────────┼─────────┼──────┼────────┼──────────────┤
-    │           │ rootfs  │ 5    │ OK     │ Disk: 45.0%  │
-    └───────────┴─────────┴──────┴────────┴──────────────┘
-    ```
+Example output:
+```
+┌───────────┬─────────┬──────┬────────┬──────────────┐
+│ Host      │ Service │ Type │ Status │ Uptime/Usage │
+├───────────┼─────────┼──────┼────────┼──────────────┤
+│ test-host │ apache2 │ 3    │ OK     │ Up: 500s     │
+├───────────┼─────────┼──────┼────────┼──────────────┤
+│           │ rootfs  │ 5    │ OK     │ Disk: 45.0%  │
+└───────────┴─────────┴──────┴────────┴──────────────┘
+```
 
-*   **JSON:**
+#### JSON:
 
-    ```bash
-    monit-ls --hosts http://user:pass@monit-host:2812 --format json
-    ```
+```bash
+monitls --hosts http://user:pass@monit-host:2812 --format json
+```
 
-    Example output (truncated):
-    ```json
-    [
-      {
-        "url": "http://user:pass@monit-host:2812",
-        "success": true,
-        "data": {
-          "$": { ... },
-          "server": { ... },
-          "platform": { ... },
-          "service": [ { ... }, { ... } ]
-        }
-      }
-    ]
-    ```
+Example output (truncated):
+```json
+[
+	{
+		"url": "http://user:pass@monit-host:2812",
+		"success": true,
+		"data": {
+			"$": { ... },
+			"server": { ... },
+			"platform": { ... },
+			"service": [ { ... }, { ... } ]
+		}
+	}
+]
+```
 
-*   **HTML:**
+#### HTML:
 
-    ```bash
-    monit-ls --hosts http://user:pass@monit-host:2812 --format html
-    ```
+```bash
+monitls --hosts http://user:pass@monit-host:2812 --format html
+```
 
-    This will output HTML content to the console. To save it to a file, use the `--output` option.
+This will output HTML content to the console. To save it to a file, use the `--output` option.
 
 ### Saving Output to a File
 
 Use the `--output <path>` option to save the generated output to a specified file.
 
 ```bash
-monit-ls --hosts http://user:pass@monit-host:2812 --format html --output monit_report.html
+monitls --hosts http://user:pass@monit-host:2812 --format html --output monit_report.html
 ```
