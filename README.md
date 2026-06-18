@@ -20,6 +20,19 @@ The `monit-ls` script can be executed directly from the project directory, or vi
 
 You can specify Monit hosts in 3 ways. Provide a comma-separated list of Monit URLs. Include authentication credentials (username:password) directly in the URL if required.
 
+### Command-Line Options
+
+Option|Description
+-|-
+**-h, --hosts** *`hosts`*|Comma-separated list of Monit URLs. (e.g. `http://user:pass@host:2812`)
+**-c, --config** *`path`*|Path to a JSON config file containing the list of hosts.
+**-f, --format** *`format`*|Output format: `json`, `table`, `html`.
+**-o, --output** *`path`*|File path to save the output.
+**-t, --template** *`path`*|Path to a custom EJS template for HTML reports.
+**-w, --wait** *`timeout`*|Number of seconds to wait for a response from each host.
+
+### Examples
+
 1.  **Via the first argument:**
 
 ```bash
@@ -47,7 +60,8 @@ monitls --config ~/path/to/config.json
 		"http://user:pass@monit-host1:2812",
 		"http://monit-host2:2812"
 	],
-	"template": "~/path/to/custom_template.ejs"
+	"template": "~/path/to/custom_template.ejs",
+	"wait": 5
 }
 ```
 
