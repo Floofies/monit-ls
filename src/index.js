@@ -19,8 +19,9 @@ async function fetchMonitStatus(url, timeout = 5000) {
 			data: result.monit
 		};
 	} catch (err) {
+		const hostURL = new URL(url);
 		return {
-			url,
+			url: hostURL.hostname,
 			success: false,
 			error: err.message
 		};
