@@ -1,18 +1,18 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander';
+import { Command, InvalidArgumentError } from 'commander';
 import { promises as fs } from 'fs';
 import monitList from "../src/index.js"
 
-function validateNumber(value, previous) {
-	const number = parseInt(value, 10);
-	if (isNaN(parsedValue)) {
-		throw new commander.InvalidArgumentError('Not a number.');
-	}
-	return parsedValue;
-}
-
 const program = new Command();
+
+function validateNumber(value, previous) {
+	const parsedNumber = parseInt(value, 10);
+	if (isNaN(parsedNumber)) {
+		throw new InvalidArgumentError('Not a number.');
+	}
+	return parsedNumber;
+}
 
 program.name("monitls")
 	.description("List data from Monit hosts")
