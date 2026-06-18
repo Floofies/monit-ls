@@ -4,6 +4,14 @@ import { Command } from 'commander';
 import { promises as fs } from 'fs';
 import monitList from "../src/index.js"
 
+function validateNumber(value, previous) {
+	const number = parseInt(value, 10);
+	if (isNaN(parsedValue)) {
+		throw new commander.InvalidArgumentError('Not a number.');
+	}
+	return parsedValue;
+}
+
 const program = new Command();
 
 program.name("monitls")
@@ -15,6 +23,7 @@ program.name("monitls")
 	.option("-f, --format <format>", "Output format: json, table, html", "table")
 	.option("-o, --output <path>", "File path to save the output")
 	.option("-t, --template <path>", "Path to a custom EJS template for HTML reports")
+	.option("-w, --wait <timeout>", "Number of seconds to wait for a response from each host", validateNumber, 5)
 	.parse(process.argv);
 
 const args = program.args;
@@ -22,10 +31,14 @@ const options = program.opts();
 try {
 	let hostnames;
 	let template;
+	let timeout;
 	if(args.length) {
 		hostnames = args[0].split(",");
 	} else if(options.hosts) {
 		hostnames = options.hosts.split(',').map(h => h.trim());
+	}
+	if(options.wait) {
+		timeout = options.wait
 	}
 	if(options.config) {
 		try {
@@ -36,6 +49,9 @@ try {
 			if("template" in config) {
 				template = config.template || ""
 			}
+			if("timeout" in config) {
+				timeout = config.timeout || 5
+			}
 		} catch (err) {
 			console.error(`Error reading config file: ${err.message}`);
 			process.exit(1);
@@ -45,7 +61,8 @@ try {
 		console.error("Please provide hosts via --hosts or --config");
 		program.help();
 	}
-	const output = await monitList(hostnames, options.format, template);
+	timeout = timeout * 1000
+	const output = await monitList(hostnames, options.format, template, timeout);
 	if (options.output) {
 		await fs.writeFile(options.output, output);
 	}

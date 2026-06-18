@@ -8,10 +8,10 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-async function fetchMonitStatus(url) {
+async function fetchMonitStatus(url, timeout = 5000) {
 	try {
 		const statusUrl = url.endsWith('/') ? `${url}_status?format=xml` : `${url}/_status?format=xml`;
-		const response = await axios.get(statusUrl, { timeout: 5000 });
+		const response = await axios.get(statusUrl, { timeout: timeout });
 		const result = await parseStringPromise(response.data, { explicitArray: false });
 		return {
 			url,
@@ -119,8 +119,8 @@ async function renderHTML(results, templatePath) {
 	return ejs.render(template, { results });
 }
 
-export default async function monitls(hostnames, format = "json", templatePath = "") {
-	const results = await Promise.all(hostnames.map(fetchMonitStatus));
+export default async function monitls(hostnames, format = "json", templatePath = "", timeout = 5000) {
+	const results = await Promise.all(hostnames.map(url => fetchMonitStatus(url, timeout)));
 	if (format === "json") {
 		return JSON.stringify(results, null, 2);
 	} else if (format === "html") {
