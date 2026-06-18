@@ -50,7 +50,7 @@ try {
 				template = config.template || ""
 			}
 			if("timeout" in config) {
-				timeout = config.timeout || 5
+				timeout = config.wait || 5
 			}
 		} catch (err) {
 			console.error(`Error reading config file: ${err.message}`);
